@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алексей Илатовский](https://up.htmlacademy.ru/javascript/18/user/951805).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Нуйсков](https://htmlacademy.ru/profile/id1077815).
 
 ---
 
