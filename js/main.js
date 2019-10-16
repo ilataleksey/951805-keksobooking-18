@@ -25,35 +25,118 @@
 //   }
 // }
 
-var stayCount = 8;
-var titles = ['2-х этажный дом', '3-х комнатная квартира', 'шатер', 'комната', 'место на парковке', 'квартира в центре', 'койко-место', 'трюм корабля'];
-var prices = [10000, 8000, 10, 100, 2000, 15000, 50, 1];
-var types = ['house', 'flat', 'bungalo', 'flat', 'bungalo', 'flat', 'bungalo', 'palace'];
-var rooms = [5, 3, 1, 1, 2, 12, 1, 4];
-var guests = [10, 6, 1, 2, 2, 30, 1, 9];
-var checkins = ['12:00', '13:00', '12:00', '13:00', '14:00', '14:00', '13:00', '13:00'];
-var checkouts = ['13:00', '14:00', '14:00', '14:00', '12:00', '12:00', '14:00', '13:00'];
-var features = [
-  ['wifi', 'dishwasher', 'washer', 'elevator', 'conditioner'],
-  ['wifi', 'dishwasher', 'elevator', 'conditioner'],
-  ['elevator'],
-  ['wifi', 'dishwasher', 'washer'],
-  ['parking'],
-  ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  ['wifi', 'dishwasher', 'washer'],
-  ['washer', 'elevator']
-];
-var descriptions = ['1', '2', '3', '4', '5', '6', '7', '8'];
-var photos = [
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel2.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg']
-];
+// var stayCount = 8;
+// var titles = ['2-х этажный дом', '3-х комнатная квартира', 'шатер', 'комната', 'место на парковке', 'квартира в центре', 'койко-место', 'трюм корабля'];
+// var prices = [10000, 8000, 10, 100, 2000, 15000, 50, 1];
+// var types = ['house', 'flat', 'bungalo', 'flat', 'bungalo', 'flat', 'bungalo', 'palace'];
+// var rooms = [5, 3, 1, 1, 2, 12, 1, 4];
+// var guests = [10, 6, 1, 2, 2, 30, 1, 9];
+// var checkins = ['12:00', '13:00', '12:00', '13:00', '14:00', '14:00', '13:00', '13:00'];
+// var checkouts = ['13:00', '14:00', '14:00', '14:00', '12:00', '12:00', '14:00', '13:00'];
+// var features = [
+//   ['wifi', 'dishwasher', 'washer', 'elevator', 'conditioner'],
+//   ['wifi', 'dishwasher', 'elevator', 'conditioner'],
+//   ['elevator'],
+//   ['wifi', 'dishwasher', 'washer'],
+//   ['parking'],
+//   ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
+//   ['wifi', 'dishwasher', 'washer'],
+//   ['washer', 'elevator']
+// ];
+// var descriptions = ['1', '2', '3', '4', '5', '6', '7', '8'];
+// var photos = [
+//   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel2.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg'],
+//   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg']
+// ];
+
+var ENTER_KEYCODE = 13;
+
+var map = document.querySelector('.map');
+var adForm = document.querySelector('.ad-form');
+var adFormInputs = adForm.querySelectorAll('input');
+var adFormSelects = adForm.querySelectorAll('select');
+var adFormTextarea = adForm.querySelectorAll('textarea');
+var adFormButton = adForm.querySelectorAll('button');
+var mapFilter = document.querySelector('.map__filters');
+var mapFilterSelects = mapFilter.querySelectorAll('select');
+
+var setAttribute = function (arr, attr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].setAttribute(attr, attr);
+  }
+};
+
+var removeAttribute = function (arr, attr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].removeAttribute(attr);
+  }
+};
+
+setAttribute(adFormInputs, 'disabled');
+setAttribute(adFormSelects, 'disabled');
+setAttribute(adFormTextarea, 'disabled');
+setAttribute(adFormButton, 'disabled');
+setAttribute(mapFilterSelects, 'disabled');
+
+var mapActivation = function () {
+  map.classList.remove('map--faded');
+  removeAttribute(adFormInputs, 'disabled');
+  removeAttribute(adFormSelects, 'disabled');
+  removeAttribute(adFormTextarea, 'disabled');
+  removeAttribute(adFormButton, 'disabled');
+  removeAttribute(mapFilterSelects, 'disabled');
+  inputAddress.value = leftCoordinate + mapMainPin.offsetWidth + MAP_MAIN_PIN_EDGE + ', ' + topCoordinate;
+};
+
+var mapMainPin = document.querySelector('.map__pin--main');
+var leftCoordinate = mapMainPin.offsetLeft + Math.round(mapMainPin.offsetWidth / 2);
+var topCoordinate = mapMainPin.offsetTop + Math.round(mapMainPin.offsetHeight / 2);
+var MAP_MAIN_PIN_EDGE = 22;
+var inputAddress = adForm.querySelector('#address');
+inputAddress.value = leftCoordinate + ', ' + topCoordinate;
+
+mapMainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  mapActivation();
+});
+
+mapMainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    evt.preventDefault();
+    mapActivation();
+  }
+});
+
+var adRoomNumber = adForm.querySelector('#room_number');
+var adCapacity = adForm.querySelector('#capacity');
+
+var checkAdCapacityfunction = function () {
+  if (adRoomNumber.value === '100' && adCapacity.value !== '0') {
+    adCapacity.setCustomValidity('100 комнат не для гостей');
+  } else if (adRoomNumber.value !== '100' & adCapacity.value === '0') {
+    adCapacity.setCustomValidity('Не для гостей 100 комнат');
+  } else if (parseInt(adRoomNumber.value, 10) < parseInt(adCapacity.value, 10)) {
+    adCapacity.setCustomValidity('Слишком много гостей для заданного количества комнат');
+  } else {
+    adCapacity.setCustomValidity('');
+  }
+};
+
+checkAdCapacityfunction();
+
+adCapacity.addEventListener('change', function () {
+  checkAdCapacityfunction();
+});
+adRoomNumber.addEventListener('change', function () {
+  checkAdCapacityfunction();
+});
+
 
 var pinList = document.querySelector('.map__pins');
 var mapWidth = pinList.offsetWidth;
@@ -102,8 +185,6 @@ var getNearStay = function () {
 };
 
 var accommodations = getNearStay();
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
 var renderPin = function (accommodation) {
   var pinElement = pinTemplate.cloneNode(true);
