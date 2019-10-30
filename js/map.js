@@ -12,7 +12,6 @@
 
   window.map = {
     map: document.querySelector('.map'),
-    mapWidth: window.pin.pinList.offsetWidth,
     mapFilterContainer: document.querySelector('.map__filters-container'),
 
     mapActivation: function () {
