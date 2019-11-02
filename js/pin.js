@@ -7,22 +7,6 @@
     .content
     .querySelector('.map__pin');
 
-  var renderPin = function (obj) {
-    var pinElement = pinTemplate.cloneNode(true);
-
-    pinElement.style.left = obj.location.x;
-    pinElement.style.top = obj.location.y;
-    pinElement.querySelector('img').src = obj.author.avatar;
-    pinElement.querySelector('img').alt = obj.offer.title;
-
-    pinElement.addEventListener('mousedown', function (evt) {
-      evt.preventDefault();
-      window.map.mapFilterContainer.appendChild(window.card.getCard(obj));
-    });
-
-    return pinElement;
-  };
-
   var mapMainPin = document.querySelector('.map__pin--main');
 
   mapMainPin.addEventListener('mousedown', function (evt) {
@@ -43,20 +27,28 @@
       yCoords: mapMainPin.offsetTop + Math.round(mapMainPin.offsetHeight / 2)
     },
 
+    renderPin: function (accommodation) {
+      var pinElement = pinTemplate.cloneNode(true);
+
+      pinElement.style.left = accommodation.location.x + 'px';
+      pinElement.style.top = accommodation.location.y + 'px';
+      pinElement.querySelector('img').src = accommodation.author.avatar;
+      pinElement.querySelector('img').alt = accommodation.offer.title;
+
+      pinElement.addEventListener('mousedown', function (evt) {
+        evt.preventDefault();
+        window.map.mapFilterContainer.appendChild(window.card.getCard(accommodation));
+      });
+
+      return pinElement;
+    },
+
     getAddress: function () {
       window.pin.mainPinCoords = {
         xCoords: mapMainPin.offsetLeft + Math.round(mapMainPin.offsetWidth / 2),
         yCoords: mapMainPin.offsetTop + mapMainPin.offsetHeight + MAP_MAIN_PIN_EDGE
       };
       window.form.inputAddress.value = window.pin.mainPinCoords.xCoords + ', ' + window.pin.mainPinCoords.yCoords;
-    },
-
-    getPinList: function (arr) {
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < arr.length; i++) {
-        fragment.appendChild(renderPin(arr[i]));
-      }
-      return fragment;
     }
   };
 

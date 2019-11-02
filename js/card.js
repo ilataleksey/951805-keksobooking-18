@@ -79,49 +79,49 @@
     }
   };
 
-  var renderCard = function (obj) {
+  var renderCard = function (accomodation) {
     var cardElement = cardTemplate.cloneNode(true);
 
     var cardAvatar = cardElement.querySelector('.popup__avatar');
-    cardAvatar.src = obj.author.avatar;
+    cardAvatar.src = accomodation.author.avatar;
 
     var cardTitle = cardElement.querySelector('.popup__title');
-    cardTitle.textContent = obj.offer.title;
+    cardTitle.textContent = accomodation.offer.title;
 
     var cardAddress = cardElement.querySelector('.popup__text--address');
-    cardAddress.textContent = obj.offer.address;
+    cardAddress.textContent = accomodation.offer.address;
 
     var cardPrice = cardElement.querySelector('.popup__text--price');
-    cardPrice.textContent = obj.offer.price + '₽/ночь';
+    cardPrice.textContent = accomodation.offer.price + '₽/ночь';
 
     var cardType = cardElement.querySelector('.popup__type');
-    cardType.textContent = getOfferType(obj);
+    cardType.textContent = getOfferType(accomodation);
 
     var cardCapacity = cardElement.querySelector('.popup__text--capacity');
-    cardCapacity.textContent = getCapacity(obj);
+    cardCapacity.textContent = getCapacity(accomodation);
 
     var cardTime = cardElement.querySelector('.popup__text--time');
-    cardTime.textContent = getTime(obj);
+    cardTime.textContent = getTime(accomodation);
 
     var cardFeatureList = cardElement.querySelector('.popup__features');
     var cardFeatures = cardFeatureList.children;
-    getFeatures(obj, cardFeatures);
+    getFeatures(accomodation, cardFeatures);
 
     var cardDescription = cardElement.querySelector('.popup__description');
-    cardDescription.textContent = obj.offer.description;
+    cardDescription.textContent = accomodation.offer.description;
 
 
     var cardPhotoList = cardElement.querySelector('.popup__photos');
     var cardPhotos = cardPhotoList.children;
-    getPhotos(obj, cardPhotoList, cardPhotos);
+    getPhotos(accomodation, cardPhotoList, cardPhotos);
 
     return cardElement;
   };
 
   window.card = {
-    getCard: function (obj) {
+    getCard: function (accomodation) {
       var fragment = document.createDocumentFragment();
-      fragment.appendChild(renderCard(obj));
+      fragment.appendChild(renderCard(accomodation));
 
       return fragment;
     }
