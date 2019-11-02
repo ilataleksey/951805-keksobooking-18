@@ -34,7 +34,7 @@
   var getNearStay = function () {
     var arr = [];
     for (var i = 0; i < STAY_COUNT; i++) {
-      var xLocation = window.helpers.getRandomInt(0, window.map.mapWidth) - 25;
+      var xLocation = window.helpers.getRandomInt(0, window.pin.mapWidth) - 25;
       var yLocation = window.helpers.getRandomInt(130, 630) - 35;
       var obj = {
         author: {

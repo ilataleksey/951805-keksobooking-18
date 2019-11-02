@@ -29,7 +29,7 @@
     }
   };
 
-  window.form.inputAddress.value = window.pin.leftCoordinate + ', ' + window.pin.topCoordinate;
+  window.form.inputAddress.value = window.pin.mainPinCoords.xCoords + ', ' + window.pin.mainPinCoords.yCoords;
 
   checkAdCapacity();
 
