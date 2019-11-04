@@ -9,7 +9,7 @@
 
   var mapMainPin = document.querySelector('.map__pin--main');
 
-  mapMainPin.addEventListener('mousedown', function (evt) {
+  mapMainPin.addEventListener('click', function (evt) {
     evt.preventDefault();
     window.map.mapActivation();
   });
@@ -35,7 +35,7 @@
       pinElement.querySelector('img').src = accommodation.author.avatar;
       pinElement.querySelector('img').alt = accommodation.offer.title;
 
-      pinElement.addEventListener('mousedown', function (evt) {
+      pinElement.addEventListener('click', function (evt) {
         evt.preventDefault();
         window.map.mapFilterContainer.appendChild(window.card.getCard(accommodation));
       });
