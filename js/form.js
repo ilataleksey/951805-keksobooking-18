@@ -131,6 +131,6 @@
     evt.preventDefault();
     window.backend.send(window.backend.URL, new FormData(adForm), window.backend.successSendHandler, window.backend.errorHandler);
     adForm.reset();
-    window.map.mapDeactivation();
+    window.map.onFormSend();
   });
 })();
