@@ -8,7 +8,7 @@
     map: document.querySelector('.map'),
     mapFilterContainer: document.querySelector('.map__filters-container'),
 
-    mapActivation: function () {
+    onMainPinClick: function () {
       window.map.map.classList.remove('map--faded');
       window.helpers.removeAttribute(mapFilterSelects, 'disabled');
       window.helpers.removeAttribute(window.form.adFormInputs, 'disabled');
@@ -19,17 +19,19 @@
       window.backend.load(window.backend.URL, window.backend.successLoadHandler, window.backend.errorHandler);
     },
 
-    mapDeactivation: function () {
+    onFormSend: function () {
       window.map.map.classList.add('map--faded');
       window.helpers.setAttribute(mapFilterSelects, 'disabled');
       window.helpers.setAttribute(window.form.adFormInputs, 'disabled');
       window.helpers.setAttribute(window.form.adFormSelects, 'disabled');
       window.helpers.setAttribute(window.form.adFormTextareas, 'disabled');
       window.helpers.setAttribute(window.form.adFormButtons, 'disabled');
+      window.pin.deleteChildren(window.pin.pinList.children, 2);
+      window.pin.deleteChildren(window.map.mapFilterContainer.children, 0);
       window.form.getDefaultAddress();
     }
   };
 
-  window.map.mapDeactivation();
+  window.map.onFormSend();
 
 })();
