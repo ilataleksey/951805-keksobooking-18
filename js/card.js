@@ -115,6 +115,11 @@
     var cardPhotos = cardPhotoList.children;
     getPhotos(accomodation, cardPhotoList, cardPhotos);
 
+    var cardCloseButton = cardElement.querySelector('.popup__close');
+    cardCloseButton.addEventListener('click', function () {
+      cardElement.classList.add('hidden');
+    });
+
     return cardElement;
   };
 

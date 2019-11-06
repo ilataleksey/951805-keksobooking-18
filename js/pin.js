@@ -9,13 +9,13 @@
 
   var mapMainPin = document.querySelector('.map__pin--main');
 
-  mapMainPin.addEventListener('mousedown', function (evt) {
+  mapMainPin.addEventListener('click', function (evt) {
     evt.preventDefault();
-    window.map.mapActivation();
+    window.map.onMainPinClick();
   });
 
   mapMainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.map.mapActivation);
+    window.util.isEnterEvent(evt, window.map.onMainPinClick);
   });
 
   window.pin = {
@@ -35,8 +35,9 @@
       pinElement.querySelector('img').src = accommodation.author.avatar;
       pinElement.querySelector('img').alt = accommodation.offer.title;
 
-      pinElement.addEventListener('mousedown', function (evt) {
+      pinElement.addEventListener('click', function (evt) {
         evt.preventDefault();
+        window.pin.deleteChildren(window.map.mapFilterContainer.children, 0);
         window.map.mapFilterContainer.appendChild(window.card.getCard(accommodation));
       });
 
@@ -49,6 +50,12 @@
         yCoords: mapMainPin.offsetTop + mapMainPin.offsetHeight + MAP_MAIN_PIN_EDGE
       };
       window.form.inputAddress.value = window.pin.mainPinCoords.xCoords + ', ' + window.pin.mainPinCoords.yCoords;
+    },
+
+    deleteChildren: function (children, firstDeletedChildren) {
+      for (var i = children.length - 1; i >= firstDeletedChildren; i--) {
+        children[i].parentElement.removeChild(children[i]);
+      }
     }
   };
 

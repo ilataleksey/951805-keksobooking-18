@@ -10,40 +10,16 @@
   window.form = {
     adFormInputs: adForm.querySelectorAll('input'),
     adFormSelects: adForm.querySelectorAll('select'),
-    adFormTextarea: adForm.querySelectorAll('textarea'),
-    adFormButton: adForm.querySelectorAll('button'),
-    adRoomNumber: adForm.querySelector('#room_number'),
-    adCapacity: adForm.querySelector('#capacity'),
+    adFormTextareas: adForm.querySelectorAll('textarea'),
+    adFormButtons: adForm.querySelectorAll('button'),
     inputAddress: adForm.querySelector('#address'),
-  };
 
-  var checkAdCapacity = function () {
-    if (window.form.adRoomNumber.value === '100' && window.form.adCapacity.value !== '0') {
-      window.form.adCapacity.setCustomValidity('100 комнат не для гостей');
-    } else if (window.form.adRoomNumber.value !== '100' & window.form.adCapacity.value === '0') {
-      window.form.adCapacity.setCustomValidity('Не для гостей 100 комнат');
-    } else if (parseInt(window.form.adRoomNumber.value, 10) < parseInt(window.form.adCapacity.value, 10)) {
-      window.form.adCapacity.setCustomValidity('Слишком много гостей для заданного количества комнат');
-    } else {
-      window.form.adCapacity.setCustomValidity('');
+    getDefaultAddress: function () {
+      window.form.inputAddress.value = window.pin.mainPinCoords.xCoords + ', ' + window.pin.mainPinCoords.yCoords;
     }
   };
 
-  window.form.inputAddress.value = window.pin.mainPinCoords.xCoords + ', ' + window.pin.mainPinCoords.yCoords;
-
-  checkAdCapacity();
-
-  window.form.adCapacity.addEventListener('change', function () {
-    checkAdCapacity();
-  });
-  window.form.adRoomNumber.addEventListener('change', function () {
-    checkAdCapacity();
-  });
-
   var adTitleInput = adForm.querySelector('#title');
-  var adPriceInput = adForm.querySelector('#price');
-  var minPrice = adPriceInput.getAttribute('min');
-  var maxPrice = adPriceInput.getAttribute('max');
 
   var checkAdTytle = function () {
     adTitleInput.addEventListener('invalid', function () {
@@ -56,6 +32,14 @@
       }
     });
   };
+
+  adTitleInput.addEventListener('change', function () {
+    checkAdTytle();
+  });
+
+  var adPriceInput = adForm.querySelector('#price');
+  var minPrice = adPriceInput.getAttribute('min');
+  var maxPrice = adPriceInput.getAttribute('max');
 
   var checkAdPrice = function () {
     adPriceInput.addEventListener('invalid', function () {
@@ -85,6 +69,16 @@
     }
   };
 
+  adTypeInput.addEventListener('change', function () {
+    checkAdTypePrice();
+    checkAdPrice();
+  });
+
+  adPriceInput.addEventListener('change', function () {
+    checkAdTypePrice();
+    checkAdPrice();
+  });
+
   var adTimeIn = adForm.querySelector('#timein');
   var adTimeOut = adForm.querySelector('#timeout');
 
@@ -100,31 +94,43 @@
     }
   };
 
-  checkAdTytle();
-  checkAdPrice();
-  checkAdTypePrice();
-  checkAdTimeOut();
-  checkAdTimeIn();
-
-  adTitleInput.addEventListener('change', function () {
-    checkAdTytle();
-  });
-
-  adTypeInput.addEventListener('change', function () {
-    checkAdTypePrice();
-    checkAdPrice();
-  });
-
-  adPriceInput.addEventListener('change', function () {
-    checkAdTypePrice();
-    checkAdPrice();
-  });
-
   adTimeIn.addEventListener('change', function () {
     checkAdTimeIn();
   });
 
   adTimeOut.addEventListener('change', function () {
     checkAdTimeOut();
+  });
+
+  var adRoomNumber = adForm.querySelector('#room_number');
+  var adCapacity = adForm.querySelector('#capacity');
+
+  var checkAdCapacity = function () {
+    if (adRoomNumber.value === '100' && adCapacity.value !== '0') {
+      adCapacity.setCustomValidity('100 комнат не для гостей');
+    } else if (adRoomNumber.value !== '100' & adCapacity.value === '0') {
+      adCapacity.setCustomValidity('Не для гостей 100 комнат');
+    } else if (parseInt(adRoomNumber.value, 10) < parseInt(adCapacity.value, 10)) {
+      adCapacity.setCustomValidity('Слишком много гостей для заданного количества комнат');
+    } else {
+      adCapacity.setCustomValidity('');
+    }
+  };
+
+  checkAdCapacity();
+
+  adCapacity.addEventListener('change', function () {
+    checkAdCapacity();
+  });
+
+  adRoomNumber.addEventListener('change', function () {
+    checkAdCapacity();
+  });
+
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.send(window.backend.URL, new FormData(adForm), window.backend.successSendHandler, window.backend.errorHandler);
+    adForm.reset();
+    window.map.onFormSend();
   });
 })();
