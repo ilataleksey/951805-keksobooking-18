@@ -23,6 +23,7 @@
     renderPins: function (accommodations) {
       var fragment = document.createDocumentFragment();
       var takeNumber = accommodations.length < PIN_NUMBER ? accommodations.length : PIN_NUMBER;
+      window.pin.deleteChildren(window.pin.pinList.children, 2);
       for (var i = 0; i < takeNumber; i++) {
         fragment.appendChild(window.pin.renderPin(accommodations[i]));
       }
