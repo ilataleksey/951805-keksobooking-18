@@ -128,7 +128,7 @@
       var fragment = document.createDocumentFragment();
       fragment.appendChild(renderCard(accomodation));
 
-      return fragment;
+      window.map.mapFilterContainer.appendChild(fragment);
     }
   };
 })();
