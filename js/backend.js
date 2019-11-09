@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var accommodations = [];
-
   window.backend = {
     URL: 'https://js.dump.academy/keksobooking',
     load: function (url, onLoad, onError) {
@@ -56,11 +54,6 @@
 
       xhr.open('POST', url);
       xhr.send(data);
-    },
-
-    successLoadHandler: function (data) {
-      accommodations = data;
-      window.pin.renderPins(accommodations);
     },
 
     errorHandler: function (errorMessage) {
