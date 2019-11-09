@@ -116,9 +116,22 @@
     getPhotos(accommodation, cardPhotoList, cardPhotos);
 
     var cardCloseButton = cardElement.querySelector('.popup__close');
-    cardCloseButton.addEventListener('click', function () {
+
+    var onCardCloseButtonClick = function () {
       cardElement.classList.add('hidden');
+      window.removeEventListener('keydown', onCardEscPress);
+    };
+
+    var onCardEscPress = function (evt) {
+      window.util.isEscEvent(evt, onCardCloseButtonClick);
+    };
+
+    cardCloseButton.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      onCardCloseButtonClick();
     });
+
+    window.addEventListener('keydown', onCardEscPress);
 
     return cardElement;
   };
