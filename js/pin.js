@@ -65,13 +65,4 @@
     }
   };
 
-  mapMainPin.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    window.map.onMainPinClick();
-  });
-
-  mapMainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.map.onMainPinClick);
-  });
-
 })();
