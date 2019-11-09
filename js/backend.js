@@ -60,11 +60,7 @@
 
     successLoadHandler: function (data) {
       accommodations = data;
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < accommodations.length; i++) {
-        fragment.appendChild(window.pin.renderPin(accommodations[i]));
-      }
-      window.pin.pinList.appendChild(fragment);
+      window.pin.renderPins(accommodations);
     },
 
     errorHandler: function (errorMessage) {
