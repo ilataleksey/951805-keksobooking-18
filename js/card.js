@@ -79,41 +79,41 @@
     }
   };
 
-  var renderCard = function (accomodation) {
+  var renderCard = function (accommodation) {
     var cardElement = cardTemplate.cloneNode(true);
 
     var cardAvatar = cardElement.querySelector('.popup__avatar');
-    cardAvatar.src = accomodation.author.avatar;
+    cardAvatar.src = accommodation.author.avatar;
 
     var cardTitle = cardElement.querySelector('.popup__title');
-    cardTitle.textContent = accomodation.offer.title;
+    cardTitle.textContent = accommodation.offer.title;
 
     var cardAddress = cardElement.querySelector('.popup__text--address');
-    cardAddress.textContent = accomodation.offer.address;
+    cardAddress.textContent = accommodation.offer.address;
 
     var cardPrice = cardElement.querySelector('.popup__text--price');
-    cardPrice.textContent = accomodation.offer.price + '₽/ночь';
+    cardPrice.textContent = accommodation.offer.price + '₽/ночь';
 
     var cardType = cardElement.querySelector('.popup__type');
-    cardType.textContent = getOfferType(accomodation);
+    cardType.textContent = getOfferType(accommodation);
 
     var cardCapacity = cardElement.querySelector('.popup__text--capacity');
-    cardCapacity.textContent = getCapacity(accomodation);
+    cardCapacity.textContent = getCapacity(accommodation);
 
     var cardTime = cardElement.querySelector('.popup__text--time');
-    cardTime.textContent = getTime(accomodation);
+    cardTime.textContent = getTime(accommodation);
 
     var cardFeatureList = cardElement.querySelector('.popup__features');
     var cardFeatures = cardFeatureList.children;
-    getFeatures(accomodation, cardFeatures);
+    getFeatures(accommodation, cardFeatures);
 
     var cardDescription = cardElement.querySelector('.popup__description');
-    cardDescription.textContent = accomodation.offer.description;
+    cardDescription.textContent = accommodation.offer.description;
 
 
     var cardPhotoList = cardElement.querySelector('.popup__photos');
     var cardPhotos = cardPhotoList.children;
-    getPhotos(accomodation, cardPhotoList, cardPhotos);
+    getPhotos(accommodation, cardPhotoList, cardPhotos);
 
     var cardCloseButton = cardElement.querySelector('.popup__close');
     cardCloseButton.addEventListener('click', function () {
@@ -124,9 +124,9 @@
   };
 
   window.card = {
-    getCard: function (accomodation) {
+    getCard: function (accommodation) {
       var fragment = document.createDocumentFragment();
-      fragment.appendChild(renderCard(accomodation));
+      fragment.appendChild(renderCard(accommodation));
 
       window.map.mapFilterContainer.appendChild(fragment);
     }
