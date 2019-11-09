@@ -27,7 +27,7 @@
       window.helpers.setAttribute(window.form.adFormTextareas, 'disabled');
       window.helpers.setAttribute(window.form.adFormButtons, 'disabled');
       window.pin.deleteChildren(window.pin.pinList.children, 2);
-      window.pin.deleteChildren(window.map.mapFilterContainer.children, 0);
+      window.pin.deleteChildren(window.map.mapFilterContainer.children, 1);
       window.form.getDefaultAddress();
     }
   };
