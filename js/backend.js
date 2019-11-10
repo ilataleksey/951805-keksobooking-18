@@ -70,8 +70,14 @@
         errorElement.remove();
       });
 
+      window.addEventListener('click', function () {
+        errorElement.remove();
+      });
+
       window.addEventListener('keydown', function (evt) {
-        window.util.isEscEvent(evt, errorElement.remove());
+        window.util.isEscEvent(evt, function () {
+          errorElement.remove();
+        });
       });
     },
 
