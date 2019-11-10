@@ -116,12 +116,11 @@
     if (housingFeatures.length === 0) {
       newAccommodations = newAccommodations;
     } else {
-      newAccommodations = newAccommodations.filter(function (accommodation) {
-        return housingFeatures.length === accommodation.offer.features.length;
-      });
-      newAccommodations = newAccommodations.filter(function (accommodation) {
-        return housingFeatures.join('') === accommodation.offer.features.join('');
-      });
+      for (var i = 0; i < housingFeatures.length; i++) {
+        newAccommodations = newAccommodations.filter(function (accommodation) {
+          return accommodation.offer.features.includes(housingFeatures[i]);
+        });
+      }
     }
 
     window.pin.renderPins(newAccommodations);
@@ -137,6 +136,7 @@
 
     onMainPinClick: function () {
       window.map.map.classList.remove('map--faded');
+      window.form.adForm.classList.remove('ad-form--disabled');
       window.helpers.removeAttribute(mapFilterSelects, 'disabled');
       window.helpers.removeAttribute(window.form.adFormInputs, 'disabled');
       window.helpers.removeAttribute(window.form.adFormSelects, 'disabled');
@@ -144,12 +144,14 @@
       window.helpers.removeAttribute(window.form.adFormButtons, 'disabled');
       window.pin.getAddress();
       window.backend.load(window.backend.URL, successLoadHandler, window.backend.errorHandler);
-      window.pin.mapMainPin.removeEventListener('click', window.map.onMainPinClick);
+      window.pin.mapMainPin.removeEventListener('mousedown', window.map.onMainPinClick);
       window.pin.mapMainPin.removeEventListener('keydown', onMainPinEnterPress);
     },
 
     onFormSend: function () {
+      mapFilter.reset();
       window.map.map.classList.add('map--faded');
+      window.form.adForm.classList.add('ad-form--disabled');
       window.helpers.setAttribute(mapFilterSelects, 'disabled');
       window.helpers.setAttribute(window.form.adFormInputs, 'disabled');
       window.helpers.setAttribute(window.form.adFormSelects, 'disabled');
@@ -158,7 +160,7 @@
       window.pin.deleteChildren(window.pin.pinList.children, 2);
       window.pin.deleteChildren(window.map.mapFilterContainer.children, 1);
       window.form.getDefaultAddress();
-      window.pin.mapMainPin.addEventListener('click', window.map.onMainPinClick);
+      window.pin.mapMainPin.addEventListener('mousedown', window.map.onMainPinClick);
       window.pin.mapMainPin.addEventListener('keydown', onMainPinEnterPress);
     }
   };
