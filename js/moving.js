@@ -1,7 +1,11 @@
 'use strict';
 
 (function () {
+  var MIN_Y_COORDINATE = 130;
+  var MAX_Y_COORDINATE = 630;
+  var MIN_X_COORDINATE = 0;
   var mapWidth = window.pin.pinList.offsetWidth;
+  var maxXCoordinate = mapWidth;
 
   window.pin.mapMainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -23,11 +27,6 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-
-      var MIN_Y_COORDINATE = 130;
-      var MAX_Y_COORDINATE = 630;
-      var MIN_X_COORDINATE = 0;
-      var maxXCoordinate = mapWidth;
 
       if ((window.pin.mapMainPin.offsetTop - shift.y) < (MIN_Y_COORDINATE - window.pin.mapMainPin.offsetHeight - window.pin.MAP_MAIN_PIN_EDGE)) {
         window.pin.mapMainPin.style.top = (MIN_Y_COORDINATE - window.pin.mapMainPin.offsetHeight - window.pin.MAP_MAIN_PIN_EDGE) + 'px';
