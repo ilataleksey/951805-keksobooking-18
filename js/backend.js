@@ -70,14 +70,12 @@
         errorElement.remove();
       });
 
-      window.addEventListener('click', function () {
+      errorElement.addEventListener('click', function () {
         errorElement.remove();
       });
 
       window.addEventListener('keydown', function (evt) {
-        window.util.isEscEvent(evt, function () {
-          errorElement.remove();
-        });
+        window.util.isEscEvent(evt, errorElement.remove);
       });
     },
 
@@ -88,14 +86,12 @@
       var successElement = successTemplate.cloneNode(true);
       document.querySelector('main').insertAdjacentElement('afterbegin', successElement);
 
-      window.addEventListener('click', function () {
+      successElement.addEventListener('click', function () {
         successElement.remove();
       });
 
       window.addEventListener('keydown', function (evt) {
-        window.util.isEscEvent(evt, function () {
-          successElement.remove();
-        });
+        window.util.isEscEvent(evt, successElement.remove);
       });
     }
   };
