@@ -32,28 +32,38 @@
     },
 
     renderPin: function (accommodation) {
-      var pinElement = pinTemplate.cloneNode(true);
+      if (accommodation.hasOwnProperty('offer')) {
+        var pinElement = pinTemplate.cloneNode(true);
 
-      pinElement.style.left = accommodation.location.x + 'px';
-      pinElement.style.top = accommodation.location.y + 'px';
-      pinElement.querySelector('img').src = accommodation.author.avatar;
-      pinElement.querySelector('img').alt = accommodation.offer.title;
+        pinElement.style.left = accommodation.location.x + 'px';
+        pinElement.style.top = accommodation.location.y + 'px';
+        pinElement.querySelector('img').src = accommodation.author.avatar;
+        pinElement.querySelector('img').alt = accommodation.offer.title;
 
-      pinElement.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        window.pin.deleteChildren(window.map.mapFilterContainer.children, 1);
-        window.card.getCard(accommodation);
-      });
+        pinElement.addEventListener('click', function (evt) {
+          evt.preventDefault();
+          window.pin.deleteChildren(window.map.mapFilterContainer.children, 1);
+          window.pin.deactivatePin();
+          pinElement.classList.add('map__pin--active');
+          window.card.getCard(accommodation);
+        });
+        return pinElement;
+      }
+      return '';
+    },
 
-      return pinElement;
+    deactivatePin: function () {
+      for (var i = 0; i < window.pin.pinList.children.length; i++) {
+        window.pin.pinList.children[i].classList.remove('map__pin--active');
+      }
     },
 
     getAddress: function () {
-      window.pin.mainPinCoords = {
+      window.pin.newMainPinCoords = {
         xCoords: mapMainPin.offsetLeft + Math.round(mapMainPin.offsetWidth / 2),
         yCoords: mapMainPin.offsetTop + mapMainPin.offsetHeight + window.pin.MAP_MAIN_PIN_EDGE
       };
-      window.form.inputAddress.value = window.pin.mainPinCoords.xCoords + ', ' + window.pin.mainPinCoords.yCoords;
+      window.form.inputAddress.value = window.pin.newMainPinCoords.xCoords + ', ' + window.pin.newMainPinCoords.yCoords;
     },
 
     deleteChildren: function (children, firstDeletedChildren) {
@@ -64,14 +74,5 @@
       }
     }
   };
-
-  mapMainPin.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    window.map.onMainPinClick();
-  });
-
-  mapMainPin.addEventListener('keydown', function (evt) {
-    window.util.isEnterEvent(evt, window.map.onMainPinClick);
-  });
 
 })();
