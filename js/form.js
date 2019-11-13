@@ -1,6 +1,19 @@
 'use strict';
 
 (function () {
+  var NUMBER_OF_ROOMS = {
+    1: ['1'],
+    2: ['2', '1'],
+    3: ['3', '2', '1'],
+    100: ['0']
+  };
+  var FIELD_VALUES = {
+    ROOMS: ['1', '2', '3', '100'],
+    GUESTS: ['1', '2', '3', '0'],
+    PRICES: ['0', '1000', '5000', '10000'],
+    TYPE: ['bungalo', 'flat', 'house', 'palace']
+  };
+
   var FLAT_MIN_PRICE = 1000;
   var HOUSE_MIN_PRICE = 5000;
   var PALACE_MIN_PRICE = 10000;
@@ -76,6 +89,8 @@
     }
   };
 
+  adPriceInput.placeholder = FIELD_VALUES.PRICES[FIELD_VALUES.TYPE.indexOf(adTypeInput.value)];
+
   adTypeInput.addEventListener('change', function () {
     checkAdTypePrice();
     checkAdPrice();
@@ -113,22 +128,14 @@
   var adCapacity = adForm.querySelector('#capacity');
 
   var checkAdCapacity = function () {
-    if (adRoomNumber.value === '100' && adCapacity.value !== '0') {
-      adCapacity.setCustomValidity('100 комнат не для гостей');
-    } else if (adRoomNumber.value !== '100' & adCapacity.value === '0') {
-      adCapacity.setCustomValidity('Не для гостей 100 комнат');
-    } else if (parseInt(adRoomNumber.value, 10) < parseInt(adCapacity.value, 10)) {
-      adCapacity.setCustomValidity('Слишком много гостей для заданного количества комнат');
-    } else {
-      adCapacity.setCustomValidity('');
+    var index = FIELD_VALUES.ROOMS.indexOf(adRoomNumber.value);
+    adCapacity.value = FIELD_VALUES.GUESTS[index];
+    for (var i = 0; i < adCapacity.options.length; i++) {
+      adCapacity.options[i].disabled = NUMBER_OF_ROOMS[adRoomNumber.value].indexOf(adCapacity.options[i].value) < 0;
     }
   };
 
   checkAdCapacity();
-
-  adCapacity.addEventListener('change', function () {
-    checkAdCapacity();
-  });
 
   adRoomNumber.addEventListener('change', function () {
     checkAdCapacity();
